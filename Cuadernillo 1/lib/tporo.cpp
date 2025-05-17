@@ -18,21 +18,20 @@ TPoro::TPoro() {
     x = 0;
     y = 0;
     volumen = 0.0;
-    color = NULL;
+    color = nullptr;
 }
 
 TPoro::TPoro(int x, int y, double volumen) {
     this->x = x;
     this->y = y;
     this->volumen = volumen;
-    color = NULL;
+    color = nullptr;
 }
 
 TPoro::TPoro(int x, int y, double volumen, char* color) {
     this->x = x;
     this->y = y;
     this->volumen = volumen;
-    this->color = NULL;
     noCapitalLetters(color, this->color);
 }
 
@@ -40,19 +39,23 @@ TPoro::TPoro(const TPoro& other) {
     this->x = other.x;
     this->y = other.y;
     this->volumen = other.volumen;
-    this->color = NULL;
-    noCapitalLetters(other.color, this->color);
+    this->color = other.color;
+}
+
+TPoro::TPoro(const TPoro& other) {
+    this->x = other.x;
+    this->y = other.y;
+    this->volumen = other.volumen;
+    this->color = other.color;
 }
 
 TPoro::~TPoro() {
     x = 0;
     y = 0;
     volumen = 0.0;
-    
-    if (color != NULL) {
-        delete[] color;
-        color = NULL;
-    }
+
+    delete[] color;
+    color = nullptr;
 }
 
 TPoro& TPoro::operator=(const TPoro& other) {
@@ -60,15 +63,17 @@ TPoro& TPoro::operator=(const TPoro& other) {
         return *this; // Evitar la autoasignación
     }
 
+    delete[] color;
+    color = nullptr;
+
     x = other.x;
     y = other.y;
     volumen = other.volumen;
 
-    delete[] color;
-    color = NULL;
-
-    if (other.color != NULL)
-        noCapitalLetters(other.color, this->color);
+    if (other.color != nullptr) {
+        color = new char[strlen(other.color) + 1];
+        strcpy(color, other.color);
+    }
 
     return *this;
 }
@@ -79,10 +84,10 @@ bool TPoro::operator==(const TPoro &other) const {
     if (this->x != other.x || this->y != other.y || this->volumen != other.volumen)
         return false;
 
-    if (this->color == NULL && other.color == NULL)
+    if (this->color == nullptr && other.color == nullptr)
         return true;
 
-    if (this->color == NULL || other.color == NULL)
+    if (this->color == nullptr || other.color == nullptr)
         return false;
 
     return (strcmp(this->color, other.color) == 0);
@@ -92,18 +97,17 @@ bool TPoro::operator!=(const TPoro& other) const {
     return !(*this == other);
 }
 
+void TPoro::Posicion(const int x, const int y) {
+    this->x = x;
+    this->y = y;
+}
+
 void TPoro::Volumen(double volumen) {
     this->volumen = volumen;
 }
 
 void TPoro::Color(const char* color) {
-    if (this->color != NULL) {
-        delete[] this->color;
-        this->color = NULL;
-    }
-
-    if (color != NULL)
-        noCapitalLetters(color, this->color);
+    noCapitalLetters(color, this->color);
 }
 
 int TPoro::PosicionX() const {
@@ -123,7 +127,7 @@ char* TPoro::Color() const {
 }
 
 bool TPoro::EsVacio() const {
-    if (x == 0 && y == 0 && volumen == 0.0 && color == NULL)
+    if (x == 0 && y == 0 && volumen == 0.0 && color == nullptr)
         return true;
     
     return false;
@@ -139,7 +143,7 @@ ostream& operator<<(ostream& os, const TPoro& poro) {
     os << fixed << setprecision(2) << poro.Volumen() << " ";
 
     char* color = poro.Color();
-    if (color == NULL) os << "-";
+    if (color == nullptr) os << "-";
     else os << color;
 
     return os;
