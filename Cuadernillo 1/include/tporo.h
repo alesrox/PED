@@ -7,7 +7,7 @@ class TPoro {
         int x, y;
         double volumen;  
         char* color;
-        void noCapitalLetters(char* original, char* &dst);
+        void noCapitalLetters(char*, const char*);
     
     public:
         TPoro(); 

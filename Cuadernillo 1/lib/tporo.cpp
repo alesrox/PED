@@ -5,15 +5,20 @@
 #include <iomanip> // Para std::setw y std::left
 using namespace std;
 
-void TPoro::noCapitalLetters(char* original, char* &dst) {
+void TPoro::noCapitalLetters(char* original, const char* dst) {
     int len = strlen(original);
-    dst = new char[len + 1];
+    char* temp = new char[len + 1];
 
-    for (int i = 0; i < len; i++)
+    for (int i = 0; i < len; i++) {
         if (original[i] >= 'A' && original[i] <= 'Z')
-            dst[i] = original[i] + 32;
+            temp[i] = original[i] + 32;
         else
-            dst[i] = original[i];
+            temp[i] = original[i];
+    }
+
+    temp[len] = '\0';
+
+    dst = temp;
 }
 
 TPoro::TPoro() {
@@ -99,8 +104,17 @@ bool TPoro::operator!=(const TPoro& other) const {
     return !(*this == other);
 }
 
+void TPoro::Posicion(const int x, const int y) {
+    this->x = x;
+    this->y = y;
+}
+
 void TPoro::Volumen(double volumen) {
     this->volumen = volumen;
+}
+
+void TPoro::Color(const char* color) {
+    noCapitalLetters(this->color, color);
 }
 
 int TPoro::PosicionX() const {
@@ -132,7 +146,7 @@ ostream& operator<<(ostream& os, const TPoro& poro) {
         return os;
     }
 
-    os << "(" << poro.PosicionX() << "," << poro.PosicionY() << ") ";
+    os << "(" << poro.PosicionX() << ", " << poro.PosicionY() << ") ";
     os << fixed << setprecision(2) << poro.Volumen() << " ";
 
     char* color = poro.Color();
