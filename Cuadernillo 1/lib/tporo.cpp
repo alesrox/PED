@@ -2,67 +2,57 @@
 #include <iostream>
 #include <stdlib.h>
 #include <cstring>
-#include <iomanip> // Para std::setw y std::left
+#include <iomanip>
 using namespace std;
 
-void TPoro::noCapitalLetters(char* original, const char* dst) {
+void TPoro::noCapitalLetters(const char* original, char* &dst) {
     int len = strlen(original);
-    char* temp = new char[len + 1];
+    dst = new char[len + 1];
+    strcpy(dst, original);
 
-    for (int i = 0; i < len; i++) {
-        if (original[i] >= 'A' && original[i] <= 'Z')
-            temp[i] = original[i] + 32;
-        else
-            temp[i] = original[i];
-    }
-
-    temp[len] = '\0';
-
-    dst = temp;
+    for (int i = 0; i < len; i++)
+        dst[i] = tolower(dst[i]);
 }
 
 TPoro::TPoro() {
     x = 0;
     y = 0;
     volumen = 0.0;
-    color = nullptr;
+    color = NULL;
 }
 
 TPoro::TPoro(int x, int y, double volumen) {
     this->x = x;
     this->y = y;
     this->volumen = volumen;
-    color = nullptr;
+    color = NULL;
 }
 
 TPoro::TPoro(int x, int y, double volumen, char* color) {
     this->x = x;
     this->y = y;
     this->volumen = volumen;
+    this->color = NULL;
     noCapitalLetters(color, this->color);
-}
-
-TPoro::TPoro(TPoro& other) {
-    this->x = other.x;
-    this->y = other.y;
-    this->volumen = other.volumen;
-    this->color = other.color;
 }
 
 TPoro::TPoro(const TPoro& other) {
     this->x = other.x;
     this->y = other.y;
     this->volumen = other.volumen;
-    this->color = other.color;
+    this->color = NULL;
+    noCapitalLetters(other.color, this->color);
 }
 
 TPoro::~TPoro() {
     x = 0;
     y = 0;
     volumen = 0.0;
-
-    delete[] color;
-    color = nullptr;
+    
+    if (color != NULL) {
+        delete[] color;
+        color = NULL;
+    }
 }
 
 TPoro& TPoro::operator=(const TPoro& other) {
@@ -70,17 +60,15 @@ TPoro& TPoro::operator=(const TPoro& other) {
         return *this; // Evitar la autoasignación
     }
 
-    delete[] color;
-    color = nullptr;
-
     x = other.x;
     y = other.y;
     volumen = other.volumen;
 
-    if (other.color != nullptr) {
-        color = new char[strlen(other.color) + 1];
-        strcpy(color, other.color);
-    }
+    delete[] color;
+    color = NULL;
+
+    if (other.color != NULL)
+        noCapitalLetters(other.color, this->color);
 
     return *this;
 }
@@ -91,10 +79,10 @@ bool TPoro::operator==(const TPoro &other) const {
     if (this->x != other.x || this->y != other.y || this->volumen != other.volumen)
         return false;
 
-    if (this->color == nullptr && other.color == nullptr)
+    if (this->color == NULL && other.color == NULL)
         return true;
 
-    if (this->color == nullptr || other.color == nullptr)
+    if (this->color == NULL || other.color == NULL)
         return false;
 
     return (strcmp(this->color, other.color) == 0);
@@ -104,17 +92,18 @@ bool TPoro::operator!=(const TPoro& other) const {
     return !(*this == other);
 }
 
-void TPoro::Posicion(const int x, const int y) {
-    this->x = x;
-    this->y = y;
-}
-
 void TPoro::Volumen(double volumen) {
     this->volumen = volumen;
 }
 
 void TPoro::Color(const char* color) {
-    noCapitalLetters(this->color, color);
+    if (this->color != NULL) {
+        delete[] this->color;
+        this->color = NULL;
+    }
+
+    if (color != NULL)
+        noCapitalLetters(color, this->color);
 }
 
 int TPoro::PosicionX() const {
@@ -134,7 +123,7 @@ char* TPoro::Color() const {
 }
 
 bool TPoro::EsVacio() const {
-    if (x == 0 && y == 0 && volumen == 0.0 && color == nullptr)
+    if (x == 0 && y == 0 && volumen == 0.0 && color == NULL)
         return true;
     
     return false;
@@ -150,7 +139,7 @@ ostream& operator<<(ostream& os, const TPoro& poro) {
     os << fixed << setprecision(2) << poro.Volumen() << " ";
 
     char* color = poro.Color();
-    if (color == nullptr) os << "-";
+    if (color == NULL) os << "-";
     else os << color;
 
     return os;

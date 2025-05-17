@@ -7,13 +7,12 @@ class TPoro {
         int x, y;
         double volumen;  
         char* color;
-        void noCapitalLetters(char*, const char*);
+        void noCapitalLetters(const char* original, char* &dst);
     
     public:
         TPoro(); 
         TPoro(int, int, double); 
         TPoro(int, int, double, char *); 
-        TPoro(TPoro &); 
         TPoro(const TPoro&); 
         ~TPoro(); 
         TPoro& operator=(const TPoro&);
