@@ -42,13 +42,6 @@ TPoro::TPoro(const TPoro& other) {
     this->color = other.color;
 }
 
-TPoro::TPoro(const TPoro& other) {
-    this->x = other.x;
-    this->y = other.y;
-    this->volumen = other.volumen;
-    this->color = other.color;
-}
-
 TPoro::~TPoro() {
     x = 0;
     y = 0;
