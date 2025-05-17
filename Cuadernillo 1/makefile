@@ -19,4 +19,4 @@ doc:
 	doxygen
 
 clean:
-	rm -f $(OBJ)
+	rm -f -r $(OBJ) tad.dSYM

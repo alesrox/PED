@@ -18,21 +18,25 @@ TPoro::TPoro() {
     x = 0;
     y = 0;
     volumen = 0.0;
-    color = nullptr;
+    color = NULL;
 }
 
 TPoro::TPoro(int x, int y, double volumen) {
     this->x = x;
     this->y = y;
     this->volumen = volumen;
-    color = nullptr;
+    color = NULL;
 }
 
 TPoro::TPoro(int x, int y, double volumen, char* color) {
     this->x = x;
     this->y = y;
     this->volumen = volumen;
-    noCapitalLetters(color, this->color);
+
+    if (color == NULL)
+        this->color = NULL;
+    else
+        noCapitalLetters(color, this->color);
 }
 
 TPoro::TPoro(const TPoro& other) {
@@ -48,22 +52,20 @@ TPoro::~TPoro() {
     volumen = 0.0;
 
     delete[] color;
-    color = nullptr;
+    color = NULL;
 }
 
 TPoro& TPoro::operator=(const TPoro& other) {
-    if (this == &other) {
-        return *this; // Evitar la autoasignación
-    }
+    if (this == &other) return *this;
 
     delete[] color;
-    color = nullptr;
+    color = NULL;
 
     x = other.x;
     y = other.y;
     volumen = other.volumen;
 
-    if (other.color != nullptr) {
+    if (other.color != NULL) {
         color = new char[strlen(other.color) + 1];
         strcpy(color, other.color);
     }
@@ -77,10 +79,10 @@ bool TPoro::operator==(const TPoro &other) const {
     if (this->x != other.x || this->y != other.y || this->volumen != other.volumen)
         return false;
 
-    if (this->color == nullptr && other.color == nullptr)
+    if (this->color == NULL && other.color == NULL)
         return true;
 
-    if (this->color == nullptr || other.color == nullptr)
+    if (this->color == NULL || other.color == NULL)
         return false;
 
     return (strcmp(this->color, other.color) == 0);
@@ -100,7 +102,13 @@ void TPoro::Volumen(double volumen) {
 }
 
 void TPoro::Color(const char* color) {
-    noCapitalLetters(color, this->color);
+    if (this->color != NULL) {
+        delete[] this->color;
+        this->color = NULL;
+    }
+
+    if (color != NULL)
+        noCapitalLetters(color, this->color);
 }
 
 int TPoro::PosicionX() const {
@@ -120,7 +128,7 @@ char* TPoro::Color() const {
 }
 
 bool TPoro::EsVacio() const {
-    if (x == 0 && y == 0 && volumen == 0.0 && color == nullptr)
+    if (x == 0 && y == 0 && volumen == 0.0 && color == NULL)
         return true;
     
     return false;
@@ -136,7 +144,7 @@ ostream& operator<<(ostream& os, const TPoro& poro) {
     os << fixed << setprecision(2) << poro.Volumen() << " ";
 
     char* color = poro.Color();
-    if (color == nullptr) os << "-";
+    if (color == NULL) os << "-";
     else os << color;
 
     return os;
