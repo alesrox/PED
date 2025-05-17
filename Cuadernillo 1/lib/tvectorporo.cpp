@@ -14,14 +14,16 @@ TVectorPoro::TVectorPoro(int dimension) : error() {
 }
 
 TVectorPoro::TVectorPoro(const TVectorPoro& other) {
-    this->dimension = other.dimension;
-    this->datos = new TPoro[other.dimension];
-
-    if (other.datos == NULL)
-        this->dimension = 0;
-    else
-        for (int i = 0; i < dimension; i++)
-            datos[i] = TPoro(other.datos[i]);
+    if (other.datos == NULL || other.dimension == 0) {
+        dimension = 0;
+        datos = NULL;
+    } else {
+        dimension = other.dimension;
+        datos = new TPoro[dimension];
+        for (int i = 0; i < dimension; i++) {
+            datos[i] = other.datos[i];
+        }
+    }
 }
 
 TVectorPoro::~TVectorPoro() {
@@ -29,13 +31,19 @@ TVectorPoro::~TVectorPoro() {
     dimension = 0;
 }
 
-TVectorPoro & TVectorPoro::operator=(const TVectorPoro& other) {
+TVectorPoro& TVectorPoro::operator=(const TVectorPoro& other) {
     if (this != &other) {
         delete[] datos;
-        dimension = other.dimension;
-        datos = (dimension > 0) ? new TPoro[dimension] : NULL;
-        for (int i = 0; i < dimension; i++) {
-            datos[i] = TPoro(other.datos[i]);
+        
+        if (other.datos == NULL || other.dimension == 0) {
+            datos = NULL;
+            dimension = 0;
+        } else {
+            dimension = other.dimension;
+            datos = new TPoro[dimension];
+            for (int i = 0; i < dimension; i++) {
+                datos[i] = other.datos[i];
+            }
         }
     }
     return *this;
@@ -80,7 +88,7 @@ int TVectorPoro::Cantidad() const {
 
 bool TVectorPoro::Redimensionar(int newDim) {
     if (newDim <= 0 || newDim == dimension) return false;
-    TPoro *newDatos = newDim > 0 ? new TPoro[newDim] : nullptr;
+    TPoro *newDatos = newDim > 0 ? new TPoro[newDim] : NULL;
     int minDim = (newDim < dimension) ? newDim : dimension;
     for (int i = 0; i < minDim; i++) {
         newDatos[i] = TPoro(datos[i]);

@@ -47,12 +47,10 @@ TPoro::TPoro(const TPoro& other) {
 }
 
 TPoro::~TPoro() {
-    x = 0;
-    y = 0;
-    volumen = 0.0;
-
-    delete[] color;
-    color = NULL;
+    if (color == NULL) {
+        delete[] color;
+        color = NULL;
+    }
 }
 
 TPoro& TPoro::operator=(const TPoro& other) {

@@ -3,13 +3,13 @@
 using namespace std;
 
 TListaPoro::TListaPoro() {
-    primero = nullptr;
-    ultimo = nullptr;
+    primero = NULL;
+    ultimo = NULL;
 }
 
 TListaPoro::TListaPoro(const TListaPoro &lista) {
-    primero = nullptr;
-    ultimo = nullptr;
+    primero = NULL;
+    ultimo = NULL;
 
     TListaPosicion pos = lista.Primera();
     while (!pos.EsVacia()) {
@@ -23,13 +23,13 @@ TListaPoro::TListaPoro(const TListaPoro &lista) {
 
 TListaPoro::~TListaPoro() {
     TListaNodo *temp;
-    while (primero != nullptr) {
+    while (primero != NULL) {
         temp = primero->siguiente;
         delete primero;
         primero = temp;
     }
 
-    ultimo = nullptr;
+    ultimo = NULL;
 }
 
 
@@ -56,7 +56,7 @@ bool TListaPoro::operator==(const TListaPoro & lista) const {
 TListaPoro & TListaPoro::operator=(const TListaPoro &lista) {
     if (this != &lista) {
         this->~TListaPoro();
-        primero = ultimo = nullptr;
+        primero = ultimo = NULL;
 
         TListaPosicion pos = lista.Primera();
         while (!pos.EsVacia()) {
@@ -96,7 +96,7 @@ TListaPoro TListaPoro::operator-(const TListaPoro & lista) {
 }
 
 bool TListaPoro::EsVacia() const {
-    return primero == nullptr && ultimo == nullptr;
+    return primero == NULL && ultimo == NULL;
 }
 
 bool TListaPoro::Insertar(const TPoro &poro) {
@@ -111,7 +111,7 @@ bool TListaPoro::Insertar(const TPoro &poro) {
     }
     
 
-    if (primero == nullptr) {
+    if (primero == NULL) {
         TListaNodo *nuevo = new TListaNodo();
         nuevo->e = poro;
         primero = nuevo;
@@ -135,13 +135,13 @@ bool TListaPoro::Insertar(const TPoro &poro) {
         nuevo->anterior = current.pos;
         current.pos->siguiente = nuevo;
 
-        if (nuevo->siguiente == nullptr)
+        if (nuevo->siguiente == NULL)
             ultimo = nuevo;
     } else {
         nuevo->anterior = current.pos->anterior;
         nuevo->siguiente = current.pos;
         current.pos->anterior = nuevo;
-        if (nuevo->anterior == nullptr)
+        if (nuevo->anterior == NULL)
             this->primero = nuevo;
     }
 
@@ -157,7 +157,7 @@ bool TListaPoro::Borrar(const TPoro & poro) {
         TListaNodo *temp = primero;
         primero = primero->siguiente;
         if (primero) 
-            primero->anterior = nullptr;
+            primero->anterior = NULL;
 
         delete temp;
         return true;
@@ -167,7 +167,7 @@ bool TListaPoro::Borrar(const TPoro & poro) {
     do {
         if (poro == current.pos->e) {
             current.pos->anterior->siguiente = current.pos->siguiente;
-            if (current.pos->siguiente != nullptr)
+            if (current.pos->siguiente != NULL)
                 current.pos->siguiente->anterior = current.pos->anterior;
 
             return true;
@@ -202,7 +202,7 @@ TPoro TListaPoro::Obtener(const TListaPosicion & pos) const {
 }
 
 int TListaPoro::Longitud() const {
-    if(primero == nullptr && ultimo == nullptr)
+    if(primero == NULL && ultimo == NULL)
         return 0;
 
     int contador = 0;
@@ -234,7 +234,7 @@ TListaPosicion TListaPoro::Ultima() const {
 }
 
 ostream & operator<<(ostream & os, TListaPoro & lista){
-    if (lista.primero == nullptr && lista.ultimo == nullptr) {
+    if (lista.primero == NULL && lista.ultimo == NULL) {
         os << "()";
         return os;
     }
@@ -283,7 +283,7 @@ TListaPoro TListaPoro::ExtraerRango(int n1, int n2) {
 
 
 TListaPosicion::TListaPosicion() { 
-    pos = nullptr; 
+    pos = NULL; 
 }
 
 TListaPosicion::TListaPosicion(const TListaPosicion &lpos) {
@@ -304,7 +304,7 @@ bool TListaPosicion::operator==(const TListaPosicion &lpos) const {
 }
 
 TListaPosicion TListaPosicion::Anterior() {
-    if (pos == nullptr || pos->anterior == nullptr)
+    if (pos == NULL || pos->anterior == NULL)
         return TListaPosicion();
 
     TListaPosicion lpos;
@@ -314,7 +314,7 @@ TListaPosicion TListaPosicion::Anterior() {
 }
 
 TListaPosicion TListaPosicion::Siguiente() {
-    if (pos->siguiente == nullptr)
+    if (pos->siguiente == NULL)
         return TListaPosicion();
 
     TListaPosicion lpos;
@@ -323,12 +323,12 @@ TListaPosicion TListaPosicion::Siguiente() {
 }
 
 bool TListaPosicion::EsVacia() const { 
-    return pos == nullptr;
+    return pos == NULL;
 }
 
 TListaNodo::TListaNodo() {
-    anterior = nullptr;
-    siguiente = nullptr;
+    anterior = NULL;
+    siguiente = NULL;
 }
 
 TListaNodo::TListaNodo(const TListaNodo &node) {

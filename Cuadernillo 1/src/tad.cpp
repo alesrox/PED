@@ -3,29 +3,19 @@
 using namespace std;
 
 #include "tporo.h"
+#include "tvectorporo.h"
 
-int main(void) {
-    TPoro a, b(0, 0, 0, NULL);
-    TPoro c(a), d(b);
-
-
-    if(a.EsVacio())
-        cout << "VACIO" << endl;
-    else
-        cout << "NO VACIO" << endl;
-
-    if(b.EsVacio())
-        cout << "VACIO" << endl;
-    else
-        cout << "NO VACIO" << endl;
-
-    if(c.EsVacio())
-        cout << "VACIO" << endl;
-    else
-        cout << "NO VACIO" << endl;
-
-    if(d.EsVacio())
-        cout << "VACIO" << endl;
-    else
-        cout << "NO VACIO" << endl;
+int
+main(void)
+{
+    TPoro a(1, 2, 3, "rojo");
+    TVectorPoro v(5);
+    
+    v[1] = a;
+    v[2] = a;
+    v[3] = a;
+    v[4] = a;
+    v[5] = a;
+    
+    cout << v << endl;
 }
