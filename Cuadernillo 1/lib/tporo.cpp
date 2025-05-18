@@ -43,7 +43,13 @@ TPoro::TPoro(const TPoro& other) {
     this->x = other.x;
     this->y = other.y;
     this->volumen = other.volumen;
-    this->color = other.color;
+
+    if (other.color != NULL) {
+        this->color = new char[strlen(other.color) + 1];
+        strcpy(this->color, other.color);
+    } else {
+        this->color = NULL;
+    }
 }
 
 TPoro::~TPoro() {

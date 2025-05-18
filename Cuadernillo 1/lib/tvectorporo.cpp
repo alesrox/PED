@@ -27,7 +27,11 @@ TVectorPoro::TVectorPoro(const TVectorPoro& other) {
 }
 
 TVectorPoro::~TVectorPoro() {
-    delete[] datos;
+    if (datos != NULL) {
+        delete[] datos;
+        datos = NULL;
+    }
+
     dimension = 0;
 }
 
