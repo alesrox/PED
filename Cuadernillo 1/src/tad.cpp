@@ -2,20 +2,22 @@
 
 using namespace std;
 
-#include "tporo.h"
-#include "tvectorporo.h"
+#include "tlistaporo.h"
 
 int
 main(void)
 {
-    TPoro a(1, 2, 3, "rojo");
-    TVectorPoro v(5);
+    TPoro p(1, 1, 1, "rojo"), q(2, 2, 2, "verde");
+    TListaPoro a;
+
     
-    v[1] = a;
-    v[2] = a;
-    v[3] = a;
-    v[4] = a;
-    v[5] = a;
+    a.Insertar(p);
+    a.Insertar(q);
+    cout << a << endl;
     
-    cout << v << endl;
+    a.Borrar(p);
+    cout << a << endl;
+    
+    a.Borrar(q);
+    cout << a << endl;
 }

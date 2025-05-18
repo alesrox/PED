@@ -233,24 +233,18 @@ TListaPosicion TListaPoro::Ultima() const {
     return ret;
 }
 
-ostream & operator<<(ostream & os, TListaPoro & lista){
-    if (lista.primero == NULL && lista.ultimo == NULL) {
-        os << "()";
-        return os;
-    }
+ostream & operator<<(ostream & os, TListaPoro & lista) {
+    os << "(";
 
     TListaPosicion pos = lista.Primera();
-    os << "(";
-    while (!pos.Siguiente().EsVacia()) {
-        TPoro poro = lista.Obtener(pos);
-        os << poro << ' ';
-        TListaPosicion next = pos.Siguiente();
-        pos = next;
+    while (!pos.EsVacia()) {
+        os << lista.Obtener(pos);
+        if (!pos.Siguiente().EsVacia())
+            os << " ";
+        pos = pos.Siguiente();
     }
 
-    TPoro poro = lista.Obtener(pos);
-    os << poro << ")";
-
+    os << ")";
     return os;
 }
 
