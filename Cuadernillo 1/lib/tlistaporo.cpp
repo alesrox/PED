@@ -39,15 +39,14 @@ bool TListaPoro::operator==(const TListaPoro & lista) const {
     pos1.pos = lista.primero;
     
     if (Longitud() != lista.Longitud())
-        return false;
-
-    while(!pos0.Siguiente().EsVacia() && !pos1.Siguiente().EsVacia()){
+    return false;
+    
+    while (!pos0.EsVacia() && !pos1.EsVacia()) {
         if (pos0.pos->e != pos1.pos->e)
             return false;
 
-        TListaPosicion next = pos0.Siguiente(), sig2 = pos1.Siguiente();
-        pos0 = next;
-        pos1 = sig2;
+        pos0 = pos0.Siguiente();
+        pos1 = pos1.Siguiente();
     }
 
     return true;
@@ -199,6 +198,16 @@ TPoro TListaPoro::Obtener(const TListaPosicion & pos) const {
     }
 
     return TPoro();
+}
+
+bool TListaPoro::Buscar(const TPoro& p) const {
+    TListaNodo* actual = primero;
+    while (actual != NULL) {
+        if (actual->e == p)
+            return true;
+        actual = actual->siguiente;
+    }
+    return false;
 }
 
 int TListaPoro::Longitud() const {

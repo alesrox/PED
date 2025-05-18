@@ -28,7 +28,7 @@ TPoro::TPoro(int x, int y, double volumen) {
     color = NULL;
 }
 
-TPoro::TPoro(int x, int y, double volumen, char* color) {
+TPoro::TPoro(int x, int y, double volumen, const char* color) {
     this->x = x;
     this->y = y;
     this->volumen = volumen;

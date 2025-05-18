@@ -55,7 +55,7 @@ class TListaPoro {
         bool Borrar(const TPoro&); 
         bool Borrar(const TListaPosicion&); 
         TPoro Obtener(const TListaPosicion&) const; 
-        bool Buscar(TPoro&) const; 
+        bool Buscar(const TPoro&) const; 
         int Longitud() const; 
         TListaPosicion Primera() const;
         TListaPosicion Ultima() const;

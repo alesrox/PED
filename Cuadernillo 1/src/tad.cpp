@@ -7,17 +7,17 @@ using namespace std;
 int
 main(void)
 {
-    TPoro p(1, 1, 1, "rojo"), q(2, 2, 2, "verde");
-    TListaPoro a;
+  TPoro p(1, 1, 1, "rojo"), q(2, 2, 2, "verde"), r(3, 3, 3, "amarillo");
+  TListaPoro a;
+  TListaPosicion pos;
 
-    
-    a.Insertar(p);
-    a.Insertar(q);
-    cout << a << endl;
-    
-    a.Borrar(p);
-    cout << a << endl;
-    
-    a.Borrar(q);
-    cout << a << endl;
+  a.Insertar(p); a.Insertar(q); a.Insertar(r);
+
+  pos = a.Ultima();
+
+  while(!pos.EsVacia())
+  {
+    cout << a.Obtener(pos) << endl;
+    pos = pos.Anterior();
+  }
 }
