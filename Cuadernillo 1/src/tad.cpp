@@ -2,22 +2,29 @@
 
 using namespace std;
 
-#include "tlistaporo.h"
+#include "tporo.h"
 
 int
 main(void)
 {
-  TPoro p(1, 1, 1, "rojo"), q(2, 2, 2, "verde"), r(3, 3, 3, "amarillo");
-  TListaPoro a;
-  TListaPosicion pos;
+  TPoro a;
 
-  a.Insertar(p); a.Insertar(q); a.Insertar(r);
+  if(a.EsVacio())
+    cout << "VACIO" << endl;
+  else
+    cout << "NO VACIO" << endl;
 
-  pos = a.Ultima();
+  a.Color("rojo");
 
-  while(!pos.EsVacia())
-  {
-    cout << a.Obtener(pos) << endl;
-    pos = pos.Anterior();
-  }
+  if(a.EsVacio())
+    cout << "VACIO" << endl;
+  else
+    cout << "NO VACIO" << endl;
+
+  a.~TPoro();
+
+  if(a.EsVacio())
+    cout << "VACIO" << endl;
+  else
+    cout << "NO VACIO" << endl;
 }

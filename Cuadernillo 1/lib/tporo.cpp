@@ -47,7 +47,7 @@ TPoro::TPoro(const TPoro& other) {
 }
 
 TPoro::~TPoro() {
-    if (color == NULL) {
+    if (color != NULL) {
         delete[] color;
         color = NULL;
     }
