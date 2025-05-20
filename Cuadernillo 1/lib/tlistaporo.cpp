@@ -159,9 +159,14 @@ TListaPoro TListaPoro::operator-(const TListaPoro& lista) {
     TListaPoro result;
     TListaPosicion actualPos = this->Primera();
 
-    while (!actualPos.EsVacia())
-        if (lista.Obtener(actualPos).EsVacio())
-            result.Insertar(actualPos.pos->e);
+    while (!actualPos.EsVacia()) {
+        TPoro elemento = Obtener(actualPos); 
+
+        if (!lista.Buscar(elemento))
+            result.Insertar(elemento);
+
+        actualPos = actualPos.Siguiente();
+    }
 
     return result;
 }
@@ -237,15 +242,19 @@ bool TListaPoro::Borrar(const TPoro& poro) {
     TListaPosicion current = Primera();
     do {
         if (poro == current.pos->e) {
-            current.pos->anterior->siguiente = current.pos->siguiente;
-            if (current.pos->siguiente != NULL)
-                current.pos->siguiente->anterior = current.pos->anterior;
+            TListaNodo *node = current.pos;
 
+            node->anterior->siguiente = node->siguiente;
+            if (node->siguiente != NULL)
+                node->siguiente->anterior = node->anterior;
+            else
+                ultimo = node->anterior;
+
+            delete node;
             return true;
         }
 
-        TListaPosicion next = current.Siguiente();
-        current = next;
+        current = current.Siguiente();
     } while (!current.EsVacia());
 
     return false;
@@ -307,7 +316,9 @@ TListaPosicion TListaPoro::Primera() const {
 }
 
 TListaPosicion TListaPoro::Ultima() const {
-    if (this->EsVacia()) return TListaPosicion();
+    if (this->EsVacia()) 
+        return TListaPosicion();
+
     TListaPosicion ret;
     ret.pos = ultimo;
 
@@ -341,7 +352,7 @@ TListaPoro TListaPoro::ExtraerRango(int n1, int n2) {
     return ret;
 }
 
-ostream & operator<<(ostream& os, TListaPoro& lista) {
+ostream & operator<<(ostream& os, const TListaPoro& lista) {
     os << "(";
 
     TListaPosicion pos = lista.Primera();

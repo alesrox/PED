@@ -60,5 +60,5 @@ class TListaPoro {
         TListaPosicion Ultima() const;
         TListaPoro ExtraerRango(int, int);
     
-    friend ostream& operator<<(ostream&, TListaPoro&);
+    friend ostream& operator<<(ostream&, const TListaPoro&);
 };

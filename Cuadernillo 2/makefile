@@ -8,7 +8,7 @@ INCLUDEDIR=include
 _OBJ= tporo.o  tabbporo.o tvectorporo.o
 OBJ = $(patsubst %,$(LIBDIR)/%,$(_OBJ))
 
-tad:    src/tad.cpp $(OBJ)
+tad: src/tad.cpp $(OBJ)
 	$(CC) $(OPTIONS) $(DEBUG) -I$(INCLUDEDIR) src/tad.cpp $(OBJ) -o tad
 
 $(LIBDIR)/%.o : $(LIBDIR)/%.cpp $(INCLUDEDIR)/%.h
@@ -21,4 +21,4 @@ doc:
 	doxygen
 
 clean:
-	rm -f $(OBJ) ./tad practica.tgz tad.dSYM
+	rm -f -r $(OBJ) ./tad practica.tgz tad.dSYM
