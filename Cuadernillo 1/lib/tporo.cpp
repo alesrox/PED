@@ -101,7 +101,7 @@ void TPoro::Posicion(const int x, const int y) {
     this->y = y;
 }
 
-void TPoro::Volumen(double volumen) {
+void TPoro::Volumen(const double volumen) {
     this->volumen = volumen;
 }
 

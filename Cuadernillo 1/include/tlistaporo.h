@@ -2,7 +2,6 @@
 using namespace std;
 
 class TListaNodo {
-
     private:
         TPoro e;
         TListaNodo *anterior;
@@ -24,11 +23,11 @@ class TListaPosicion {
 
     public:
         TListaPosicion();
-        TListaPosicion(const TListaPosicion &); 
+        TListaPosicion(const TListaPosicion&); 
         ~TListaPosicion();
-        TListaPosicion& operator=(const TListaPosicion &);
+        TListaPosicion& operator=(const TListaPosicion&);
 
-        bool operator==(const TListaPosicion &) const;
+        bool operator==(const TListaPosicion&) const;
         TListaPosicion Anterior();
         TListaPosicion Siguiente();
         bool EsVacia() const;
@@ -59,7 +58,7 @@ class TListaPoro {
         int Longitud() const; 
         TListaPosicion Primera() const;
         TListaPosicion Ultima() const;
-        TListaPoro ExtraerRango(int n1, int n2);
+        TListaPoro ExtraerRango(int, int);
     
-    friend ostream & operator<<(ostream&, TListaPoro&);
+    friend ostream& operator<<(ostream&, TListaPoro&);
 };

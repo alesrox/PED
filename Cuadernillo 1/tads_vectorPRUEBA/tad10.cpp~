@@ -17,6 +17,6 @@ main(void)
   v[4] = a;
   v[5] = a;
 
-v.Redimensionar(1);
+v.Redimensionar(-1);
   cout << v << endl;
 }
