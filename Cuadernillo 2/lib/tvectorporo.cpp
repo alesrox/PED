@@ -14,33 +14,42 @@ TVectorPoro::TVectorPoro(int dimension) : error() {
 }
 
 TVectorPoro::TVectorPoro(const TVectorPoro& other) {
-    this->dimension = other.dimension;
-    this->datos = new TPoro[other.dimension];
-
-    if (other.datos == NULL)
-        this->dimension = 0;
-    else
-        for (int i = 0; i < dimension; i++)
-            datos[i] = TPoro(other.datos[i]);
+    if (other.datos == NULL || other.dimension == 0) {
+        dimension = 0;
+        datos = NULL;
+    } else {
+        dimension = other.dimension;
+        datos = new TPoro[dimension];
+        for (int i = 0; i < dimension; i++) {
+            datos[i] = other.datos[i];
+        }
+    }
 }
 
 TVectorPoro::~TVectorPoro() {
-    delete[] datos;
+    if (datos != NULL) {
+        delete[] datos;
+        datos = NULL;
+    }
+
     dimension = 0;
 }
 
-TVectorPoro & TVectorPoro::operator=(const TVectorPoro& other) {
-    if (&other != this) {
-        if (datos==NULL) {
-            delete[] datos;
-            datos=NULL;
+TVectorPoro& TVectorPoro::operator=(const TVectorPoro& other) {
+    if (this != &other) {
+        delete[] datos;
+        
+        if (other.datos == NULL || other.dimension == 0) {
+            datos = NULL;
+            dimension = 0;
+        } else {
+            dimension = other.dimension;
+            datos = new TPoro[dimension];
+            for (int i = 0; i < dimension; i++) {
+                datos[i] = other.datos[i];
+            }
         }
-    
-        dimension=other.dimension;
-        datos=new TPoro[dimension];
-        copy(other.datos, other.datos+dimension, datos);
     }
-
     return *this;
 }
 
@@ -94,11 +103,11 @@ bool TVectorPoro::Redimensionar(int newDim) {
     return true;
 }
 
-ostream & operator<<(ostream & os, const TVectorPoro& vec){
+ostream & operator<<(ostream & os, const TVectorPoro & vec){
     os << '[';
-    for (int i = 0; i < vec.dimension; i++){
+    for(int i = 0; i < vec.dimension; i++){
         os << i+1 << ' ' << vec[i+1];
-        if (i != vec.dimension - 1) os << ' ';
+        if(i != vec.dimension - 1) os << ' ';
     }
     os << ']';
 

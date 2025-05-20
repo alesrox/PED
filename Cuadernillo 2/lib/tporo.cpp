@@ -2,7 +2,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <cstring>
-#include <iomanip> // Para std::setw y std::left
+#include <iomanip>
 using namespace std;
 
 void TPoro::noCapitalLetters(const char* original, char* &dst) {
@@ -28,27 +28,31 @@ TPoro::TPoro(int x, int y, double volumen) {
     color = NULL;
 }
 
-TPoro::TPoro(int x, int y, double volumen, char* color) {
+TPoro::TPoro(int x, int y, double volumen, const char* color) {
     this->x = x;
     this->y = y;
     this->volumen = volumen;
-    this->color = NULL;
-    noCapitalLetters(color, this->color);
+
+    if (color == NULL)
+        this->color = NULL;
+    else
+        noCapitalLetters(color, this->color);
 }
 
 TPoro::TPoro(const TPoro& other) {
     this->x = other.x;
     this->y = other.y;
     this->volumen = other.volumen;
-    this->color = NULL;
-    noCapitalLetters(other.color, this->color);
+
+    if (other.color != NULL) {
+        this->color = new char[strlen(other.color) + 1];
+        strcpy(this->color, other.color);
+    } else {
+        this->color = NULL;
+    }
 }
 
 TPoro::~TPoro() {
-    x = 0;
-    y = 0;
-    volumen = 0.0;
-    
     if (color != NULL) {
         delete[] color;
         color = NULL;
@@ -56,19 +60,19 @@ TPoro::~TPoro() {
 }
 
 TPoro& TPoro::operator=(const TPoro& other) {
-    if (this == &other) {
-        return *this; // Evitar la autoasignación
-    }
+    if (this == &other) return *this;
+
+    delete[] color;
+    color = NULL;
 
     x = other.x;
     y = other.y;
     volumen = other.volumen;
 
-    delete[] color;
-    color = NULL;
-
-    if (other.color != NULL)
-        noCapitalLetters(other.color, this->color);
+    if (other.color != NULL) {
+        color = new char[strlen(other.color) + 1];
+        strcpy(color, other.color);
+    }
 
     return *this;
 }
@@ -90,6 +94,11 @@ bool TPoro::operator==(const TPoro &other) const {
 
 bool TPoro::operator!=(const TPoro& other) const {
     return !(*this == other);
+}
+
+void TPoro::Posicion(const int x, const int y) {
+    this->x = x;
+    this->y = y;
 }
 
 void TPoro::Volumen(double volumen) {

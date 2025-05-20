@@ -12,7 +12,7 @@ class TPoro {
     public:
         TPoro(); 
         TPoro(int, int, double); 
-        TPoro(int, int, double, char *); 
+        TPoro(int, int, double, const char*); 
         TPoro(const TPoro&); 
         ~TPoro(); 
         TPoro& operator=(const TPoro&);

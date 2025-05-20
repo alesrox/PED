@@ -10,7 +10,6 @@ OBJ = $(patsubst %,$(LIBDIR)/%,$(_OBJ))
 
 tad:    src/tad.cpp $(OBJ)
 	$(CC) $(OPTIONS) $(DEBUG) -I$(INCLUDEDIR) src/tad.cpp $(OBJ) -o tad
-	rm -r tad.dSYM
 
 $(LIBDIR)/%.o : $(LIBDIR)/%.cpp $(INCLUDEDIR)/%.h
 	$(CC) $(OPTIONS) $(DEBUG) -c -I$(INCLUDEDIR) -o $@ $<
@@ -22,4 +21,4 @@ doc:
 	doxygen
 
 clean:
-	rm -f $(OBJ) ./tad practica.tgz
+	rm -f $(OBJ) ./tad practica.tgz tad.dSYM
